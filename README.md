@@ -1,18 +1,73 @@
-This is an AI Powered personal Football Coach, which players can use hands-on during their training, especially during the absence of a coach.
+# Marquee — Voice Football Coach
 
-The use of this app is very simple. 
+A real-time voice agent that coaches you on football tactics, training design,
+and match analysis. Built for the DataForge × Rime hackathon.
 
-1.Download the files within this repository and save it in a central directory.
-2. Run the commands as stated in the Rime LiveKit Quickstart Guide. (Make sure that correct versions of Python are installed and libraries are correctly working.)
-3. Make sure that uv sync and venv is enabled and working.
-4. As soon as the agent is active on local terminal, visit coachoncall.lovable.app on any device, preferably on a mobile phone.
-5. After the introduction of the coach, speak any prompt(Hey or Hello) and wait for the coach to talk back.
-6. The coach can ask about yourself, your team, position and the competition you are preparing for.
-7. It is an interactive model, which you will have to actively respond to during the performance of a drill, practice exercise recommended by the coach.
+## Why voice
 
-You can use this app during your own training sessions, to recommend tactics, drills, motivation and other advanced technical analysis of the game.
- Problem solved: Pronounciation and Controlled Delivery
+Marquee is a full-duplex voice coach. You talk, it listens, reasons, and
+answers out loud through Rime TTS. Removing speech would break the product —
+there's no chat fallback, no text transcript to read. The spoken delivery is
+the interface.
 
- Brief sentences, humanised and Coach-centric voice, filling of words by punctuations during long or repetitive pronounciations. This is largely done as directed by the task details.
+## Hard voice problem: pronunciation and controlled delivery
 
- 
+Football is full of names, formations, and jargon — "false nine", "tiki-taka",
+player names, set-piece codes. The agent must pronounce them correctly and
+deliver coaching cues at a controlled pace.
+
+**Acceptance test (defined before demo):**
+- Render the same coaching turn with two text variants (one with phonetic
+  hints, one without) using the identical Rime model and speaker.
+- Save both audio clips.
+- A listener rates intelligibility of names and jargon on a 1–5 scale.
+- Pass = average ≥ 4, with no name mispronounced in the hinted variant.
+
+## Architecture
+User mic ──► LiveKit (WebRTC) ──► Agent
+│
+STT: gpt-4o-transcribe
+LLM: gpt-4o-mini
+TTS: Rime (coda / cupola)  ◄── primary spoken output
+VAD: Silero + turn detector
+Noise cancellation: Krisp
+
+
+- `agent.py` — LiveKit Agents entrypoint, VolumeTTS wrapper, session setup
+- `personality.py` — system prompt for the "Marquee" coach persona
+- `token_server.py` — issues short-lived LiveKit room tokens for the frontend
+
+## Rime configuration (shipped path)
+
+| Setting | Value |
+|---|---|
+| Model ID | `coda` |
+| Speaker | `cupola` |
+| Language | `eng` |
+| Endpoint | Rime default (US) |
+| Audio format | PCM, streamed |
+| Transport | LiveKit WebRTC |
+
+## Setup
+
+
+# 1. Clone and enter
+git clone https://github.com/rudacad18/rime-voice-product-coachoncall.git
+cd rime-voice-product-coachoncall
+
+# 2. Create your secret file (never commit this)
+cp .env.example .env
+# fill in: LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET,
+#          OPENAI_API_KEY, RIME_API_KEY
+
+# 3. Install and download model files
+uv sync
+uv run python agent.py download-files
+
+# 4. Run the agent
+uv run python agent.py dev
+
+# 5. (optional) run the token server for the custom frontend
+uv run python token_server.py 
+
+Open the LiveKit Agents Playground or coachoncall.lovable.app to talk.
