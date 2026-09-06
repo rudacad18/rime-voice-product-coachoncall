@@ -1,0 +1,9 @@
+[project]
+name = "rime-voice-agent"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "livekit-agents[openai,rime,silero,turn-detector]~=1.6",
+    "livekit-plugins-noise-cancellation~=0.2",
+    "python-dotenv>=1.1.1",
+]
