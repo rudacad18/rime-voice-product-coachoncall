@@ -1,7 +1,7 @@
 
 ---
 
-#Rime Evidence
+# Rime Evidence
 
 **Product:** Marquee – AI Voice Football Coach  
 **Hard Voice Problem:** Pronunciation and Controlled Delivery  
