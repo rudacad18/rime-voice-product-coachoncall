@@ -1,0 +1,20 @@
+# LiveKit Core
+livekit>=0.8.0
+livekit-agents>=0.8.0
+
+# LiveKit Plugins
+livekit-plugins-openai>=0.8.0
+livekit-plugins-silero>=0.8.0
+livekit-plugins-rime>=0.8.0
+livekit-plugins-noise-cancellation>=0.8.0
+livekit-plugins-turn-detector>=0.8.0
+
+# Audio Processing
+numpy>=1.24.0
+
+# Environment Configuration
+python-dotenv>=1.0.0
+
+# Optional but recommended for testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
