@@ -50,6 +50,10 @@ A LiveKit-based voice coaching agent with Rime AI text-to-speech that solves thr
 - 5% headroom protection (target_peak=0.95)
 - THD+N reduced to 0.1% (32x improvement)
 
+## Hard Voice Problem Chosen
+
+**Coach, I’ve been analysing my positioning when we have the ball on the right side. When the play switches and I receive it high and wide, should I prioritise taking the full-back on the outside to create a crossing opportunity, or is it better for me to cut inside onto my stronger foot and look for the combination with the number ten or the late-arriving midfielder?**
+
 ## Key Features
 
 ### ✨ Pronunciation Testing Framework
